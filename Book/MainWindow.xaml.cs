@@ -195,5 +195,10 @@ namespace Book
 
 
         }
+
+        private void listBoxUsers_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            MessageBox.Show(listBoxUsers.SelectedValue.ToString());
+        }
     }
 }
