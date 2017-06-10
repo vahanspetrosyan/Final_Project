@@ -1,18 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using System.Data;
-using System.Data.Sql;
 using System.Data.SqlClient;
 
 namespace Book
@@ -22,6 +10,7 @@ namespace Book
     /// </summary>
     public partial class LoginWindow : Window
     {
+        public static int ID { get; set; }
         //public static string connectionSString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|DataBaseBook.mdf;Integrated Security=True";
         public static string connectionSString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\vahan\Source\Repos\Book_HomeWork\Book\DataBaseBook.mdf;Integrated Security=True";
         public LoginWindow()
@@ -49,7 +38,6 @@ namespace Book
 
                 if (count == 1)
                 {
-
                     MainWindow dashboard = new MainWindow();
                     dashboard.Show();
                     this.Close();
@@ -88,29 +76,28 @@ namespace Book
                 if (sqlConnection.State == ConnectionState.Closed)
 
                     sqlConnection.Open();
-                String query = "SELECT COUNT(1) FROM Users WHERE FirstName=@UserName AND Password=@Password ";
+                String query = "SELECT Id FROM Users WHERE FirstName=@UserName AND Password=@Password";
                 SqlCommand sqlCmd = new SqlCommand(query, sqlConnection);
                 sqlCmd.Parameters.AddWithValue("@UserName", txtUserName.Text);
                 sqlCmd.Parameters.AddWithValue("@Password", Encryption.GetHashString(txtPassword.Password));
 
-                int count = Convert.ToInt32(sqlCmd.ExecuteScalar());
-
-
-                if (count == 1)
+                SqlDataReader sqlData = sqlCmd.ExecuteReader();
+                while (sqlData.Read())
                 {
-
-                    ClientWindow clent = new ClientWindow();
-                    clent.Show();
-                    this.Close();
-
+                    if (Convert.ToInt32(sqlData["Id"]) > 0)
+                    {
+                        ID = Convert.ToInt32(sqlData["Id"]);
+                        ClientWindow clent = new ClientWindow();
+                        clent.Show();
+                        this.Close();
+                        return;
+                    }
+                    else
+                    {
+                        MessageBox.Show("UserName or Password is incorrect.");
+                    }
                 }
-                else
-                {
-                    MessageBox.Show("UserName or Password is incorrect.");
-                }
-
-
-
+                MessageBox.Show("UserName or Password is incorrect.");
             }
             catch (Exception ex)
             {

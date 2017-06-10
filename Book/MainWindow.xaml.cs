@@ -196,9 +196,39 @@ namespace Book
 
         }
 
-        private void listBoxUsers_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private async void listBoxUsers_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            MessageBox.Show(listBoxUsers.SelectedValue.ToString());
+            MainWindow.sqlConnection = new SqlConnection(LoginWindow.connectionSString);
+            await sqlConnection.OpenAsync();
+            SqlDataReader sqlDataReader = null;
+            MainWindow.sqlCommand = new SqlCommand("Select ub.Given,ub.[Return],ub.GivenDate,ub.ReturnDate,u.BookName,u.BookAuthor,u.PublishingHouse FROM  UsersBooks ub JOIN Books u ON u.id = ub.BookID WHERE ub.USerID = '" + listBoxUsers.SelectedValue.ToString() + "'", MainWindow.sqlConnection);
+            try
+            {
+                listBoxUsersHistory.Items.Clear();
+                sqlDataReader = await MainWindow.sqlCommand.ExecuteReaderAsync();
+                while (await sqlDataReader.ReadAsync())
+                {
+                    string givenS = (sqlDataReader["Given"].ToString() == "1" ? "Given " + sqlDataReader["GivenDate"].ToString() : "Isn't given");
+                    string returnS = (sqlDataReader["Return"].ToString() == "1" ? "Returned " + sqlDataReader["ReturnDate"].ToString() : "Isn't returned");
+                    listBoxUsersHistory.Items.Add(Convert.ToString(sqlDataReader["BookName"]) + " "
+                        + Convert.ToString(sqlDataReader["BookAuthor"]) + " "
+                        + Convert.ToString(sqlDataReader["PublishingHouse"]) + " "
+                        + givenS + " "
+                        + returnS);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message.ToString(), ex.Source.ToString(), MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                if (sqlDataReader != null)
+                    sqlDataReader.Close();
+
+
+            }
         }
     }
 }

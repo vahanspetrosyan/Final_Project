@@ -5,16 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Book"
         mc:Ignorable="d"
-        Title="ClientWindow" Height="300" Width="500">
-    <Grid >
+        Title="ClientWindow" Height="300" Width="500" Loaded="Window_Loaded">
+    <Grid>
         <Grid.Background>
             <ImageBrush ImageSource="Images/Book_Template.jpg"/>
         </Grid.Background>
         <Label Content="Search books" FontSize="15" Margin="10,52,0,0" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Width="119" />
         <Label Content="Reserve a book" FontSize="15" Margin="10,134,0,0" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Width="119" />
         <ListBox x:Name="listboxSerach" Margin="185,116,0,0" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Width="259"/>
-        <Button Content="Add" Margin="329,204,0,0" Height="44" VerticalAlignment="Top" HorizontalAlignment="Left" Width="115" Opacity="0.5"/>
-        <TextBox x:Name="textboxBookSerarch" Margin="185,44,179,187" Opacity="0.5"/>
-        <Button Content="Search" Margin="329,44,0,0" HorizontalAlignment="Left" Width="115" Height="38" VerticalAlignment="Top" Opacity="0.5" Click="Button_Click" />
+        <Button Padding="10" Content="Reserve selected book" Margin="299,204,0,0" Height="44" VerticalAlignment="Top" HorizontalAlignment="Left" Width="145" Click="ReserveABook"/>
+        <TextBox x:Name="textboxBookSerarch" Margin="185,44,179,187"/>
+        <Button Content="Search" Margin="329,44,0,0" HorizontalAlignment="Left" Width="115" Height="38" VerticalAlignment="Top" Click="Button_Click" />
     </Grid>
 </Window>
