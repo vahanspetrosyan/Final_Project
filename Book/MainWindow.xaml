@@ -13,7 +13,7 @@
 
     <Border Margin="30" CornerRadius="50" Background="#FF243257" >
         <TabControl  Margin="10"  Width="693">
-            <TabItem Header="Book Managment">
+            <TabItem Header="Book Managment" Margin="-2,-2,-17.6,0.2">
 
                 <Grid Background="#FFF0F3FF" DataContext="{StaticResource booksViewSource}">
                     <Label Content="Book Name" Height="30" FontSize="15" Margin="0,94,0,268" />
@@ -34,15 +34,19 @@
 
                 </Grid>
             </TabItem>
-            <TabItem Header="TabItem">
+            <TabItem Header="User history" Margin="17.8,-2,-44.6,0">
                 <Grid Background="#FFE5E5E5">
-                    <Label x:Name="label" Content="Users" RenderTransformOrigin="0.704,-0.848" Margin="0,10,0.2,-10.4"/>
-                    <ListBox MouseDoubleClick="listBoxUsers_MouseDoubleClick" x:Name="listBoxUsers" HorizontalAlignment="Left" Height="356" VerticalAlignment="Top" Width="306" Margin="0,42,0,-0.4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="139*"/>
+                        <ColumnDefinition Width="548*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label x:Name="label" Content="Users" RenderTransformOrigin="0.704,-0.848" Margin="0,10,0.2,-10.4" Grid.ColumnSpan="2"/>
+                    <ListBox MouseDoubleClick="listBoxUsers_MouseDoubleClick" x:Name="listBoxUsers" HorizontalAlignment="Left" Height="356" VerticalAlignment="Top" Width="306" Margin="0,42,0,-0.4" Grid.ColumnSpan="2">
 
                     </ListBox>
 
-                    <ListBox x:Name="listBoxUsersHistory" HorizontalAlignment="Left" Height="356" VerticalAlignment="Top" Width="376" Margin="311,42,0,-0.4"/>
-                    <Label x:Name="label1" Content="Users history&#xD;&#xA;" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="368,11,0,0"/>
+                    <ListBox x:Name="listBoxUsersHistory" HorizontalAlignment="Left" Height="356" VerticalAlignment="Top" Width="376" Margin="176.8,42,-4.8,-0.4" Grid.Column="1"/>
+                    <Label x:Name="label1" Content="Users history&#xD;&#xA;" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="176.8,10,0,0" Grid.Column="1" Height="42" Width="79"/>
                 </Grid>
             </TabItem>
         </TabControl>
