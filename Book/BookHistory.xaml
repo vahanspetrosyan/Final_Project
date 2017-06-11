@@ -7,6 +7,16 @@
         mc:Ignorable="d"
         Title="BookHistory" Height="299.761" Width="713.397" Loaded="Window_Loaded">
     <Grid>
-        <ListBox x:Name="BookHistoryList" HorizontalAlignment="Left" Height="270" VerticalAlignment="Top" Width="707"/>
+        <ListView x:Name="BookHistoryList">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="100" Header="Book name" DisplayMemberBinding="{Binding BookName}"/>
+                    <GridViewColumn Width="100" Header="First Name" DisplayMemberBinding="{Binding FirstName}"/>
+                    <GridViewColumn Width="100" Header="Last Name" DisplayMemberBinding="{Binding Surname}"/>
+                    <GridViewColumn Width="190" Header="Given?" DisplayMemberBinding="{Binding Given}"/>
+                    <GridViewColumn Width="190" Header="Returned?" DisplayMemberBinding="{Binding Returned}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </Window>

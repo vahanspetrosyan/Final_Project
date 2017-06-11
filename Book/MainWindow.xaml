@@ -5,61 +5,124 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Book"
         mc:Ignorable="d"
-        Title="MainWindow" Height="536" Width="781" Loaded="Windows_Loaded" Background="#FF281E51">
+        Title="MainWindow" Height="536" Width="781" Loaded="Windows_Loaded">
     <Window.Resources>
         <local:DataBaseBookDataSet x:Key="dataBaseBookDataSet"/>
         <CollectionViewSource x:Key="booksViewSource" Source="{Binding Books, Source={StaticResource dataBaseBookDataSet}}"/>
     </Window.Resources>
-
-    <Border Margin="30" CornerRadius="50" Background="#FF243257" >
-        <TabControl  Margin="10"  Width="693">
-            <TabItem Header="Book Managment" Margin="-2,-2,-17.6,0.2">
-                <Grid Background="#FFF0F3FF" DataContext="{StaticResource booksViewSource}">
-                    <Label Content="Book Name" Height="30" FontSize="15" Margin="0,94,0,268" />
-                    <TextBox x:Name="textbox1" FontSize="20" HorizontalAlignment="Left" Height="30" Margin="174,94,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="128" TextAlignment="Center"/>
-                    <Label Content="Book Author" Height="30" FontSize="15" Margin="0,152,0,215" />
-                    <TextBox x:Name="textbox2" FontSize="20" HorizontalAlignment="Left" Height="30" TextWrapping="Wrap" VerticalAlignment="Top" Width="128" Margin="174,152,0,0" TextAlignment="Center"/>
-                    <Label Content="Publishing House" Height="30" FontSize="15" Margin="0,213,0,154" />
-                    <TextBox x:Name="textbox3" FontSize="20" HorizontalAlignment="Left" Height="30" Margin="174,213,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="128" TextAlignment="Center"/>
-                    <Button Content="Add Book" FontSize="12" Width="80" Margin="222,274,385,83" Click="Button_Click" />
-                    <ListBox x:Name="listbox"  HorizontalAlignment="Left" Height="168" Margin="340,94,0,0" VerticalAlignment="Top" Width="337" MouseDoubleClick="MouseDoubleClickEvent"/>
-                    <TextBox x:Name="textbox4" FontSize="20" HorizontalAlignment="Left" Height="30" Margin="340,314,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="128" TextAlignment="Center"/>
-                    <Button Content="Delete" FontSize="11" Width="80" Margin="572,309,35,53" Click="Delete_Button_Click" />
-                    <Label Content="Write the name of the book to delete" FontSize="11" HorizontalAlignment="Left" Height="30"  Margin="382,274,0,0" VerticalAlignment="Top" Width="216"/>
-                    <Label HorizontalAlignment="Left" Margin="340,349,0,0" VerticalAlignment="Top" x:Name="Status" >
-                        <Label Content="Label" Visibility="Collapsed"/>
-                    </Label>
-
-
-                </Grid>
-            </TabItem>
-            <TabItem Header="User history" Margin="17.8,-2,-44.6,0">
-                <Grid Background="#FFE5E5E5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="139*"/>
-                        <ColumnDefinition Width="548*"/>
-                    </Grid.ColumnDefinitions>
-                    <Label x:Name="label" Content="Users" RenderTransformOrigin="0.704,-0.848" Margin="0,10,0.2,-10.4" Grid.ColumnSpan="2"/>
-                    <ListBox MouseDoubleClick="listBoxUsers_MouseDoubleClick" x:Name="listBoxUsers" HorizontalAlignment="Left" Height="356" VerticalAlignment="Top" Width="306" Margin="0,42,0,-0.4" Grid.ColumnSpan="2">
-
-                    </ListBox>
-
-                    <ListBox x:Name="listBoxUsersHistory" HorizontalAlignment="Left" Height="356" VerticalAlignment="Top" Width="376" Margin="176.8,42,-4.8,-0.4" Grid.Column="1"/>
-                    <Label x:Name="label1" Content="Users history&#xD;&#xA;" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="176.8,10,0,0" Grid.Column="1" Height="42" Width="79"/>
-                </Grid>
-            </TabItem>
-            <TabItem Header="Reserve requests" Margin="44.6,-2,-55.8,0">
-                <Grid Background="#FFE5E5E5">
-                    <ListBox x:Name="ReservedRequests"></ListBox>
-                </Grid>
-            </TabItem>
-            <TabItem Header="Not returned books" Margin="55.8,-2,-72,0">
-                <Grid Background="#FFE5E5E5">
-                    <ListBox x:Name="NotReturnedBooks"></ListBox>
-                </Grid>
-            </TabItem>
-        </TabControl>
-    </Border>
-
+    <TabControl  Margin="0,0,3.4,2.4">
+        <TabItem Header="Book Managment" Margin="-2,-2,-17.6,0.2">
+            <Grid Background="#FFF0F3FF" DataContext="{StaticResource booksViewSource}">
+                <Label Content="Book Name" Height="30" FontSize="15" Margin="10,62,-10.4,376" />
+                <TextBox x:Name="textbox1" FontSize="20" HorizontalAlignment="Left" Height="30" Margin="146,60,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="128" TextAlignment="Center"/>
+                <Label Content="Book Author" Height="30" FontSize="15" Margin="10,117,-10.4,321" />
+                <TextBox x:Name="textbox2" FontSize="20" HorizontalAlignment="Left" Height="30" TextWrapping="Wrap" VerticalAlignment="Top" Width="128" Margin="146,117,0,0" TextAlignment="Center"/>
+                <Label Content="Publishing House" Height="30" FontSize="15" Margin="10,178,-10.4,260" />
+                <TextBox x:Name="textbox3" FontSize="20" HorizontalAlignment="Left" Height="30" Margin="146,178,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="128" TextAlignment="Center"/>
+                <Button Content="Add Book" FontSize="12" Margin="197,233,491.6,193" Click="BookInsert" />
+                <ListView x:Name="Books" HorizontalAlignment="Left" Height="355" Margin="302,60,0,0" VerticalAlignment="Top" Width="454">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Width="100" Header="Title" DisplayMemberBinding="{Binding BookName}"/>
+                            <GridViewColumn Width="100" Header="Author" DisplayMemberBinding="{Binding BookAuthor}"/>
+                            <GridViewColumn Width="90" Header="Publishing House" DisplayMemberBinding="{Binding PublishingHouse}"/>
+                            <GridViewColumn Header="">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="View" Click="BookView" CommandParameter="{Binding ID}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Delete" Click="BookDelete" CommandParameter="{Binding ID}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+        </TabItem>
+        <TabItem Header="User history" Margin="17.8,-2,-44.6,0">
+            <Grid Background="#FFE5E5E5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="139*"/>
+                    <ColumnDefinition Width="548*"/>
+                </Grid.ColumnDefinitions>
+                <Label x:Name="label" Content="Users" RenderTransformOrigin="0.704,-0.848" Margin="0,10,0.2,-10.4" Grid.ColumnSpan="2"/>
+                <ListView x:Name="listBoxUsers" HorizontalAlignment="Left" Height="356" VerticalAlignment="Top" Width="306" Margin="0,42,0,-0.4" Grid.ColumnSpan="2">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Width="70" Header="FirstName" DisplayMemberBinding="{Binding FirstName}"/>
+                            <GridViewColumn Width="70" Header="Surname" DisplayMemberBinding="{Binding Surname}"/>
+                            <GridViewColumn Width="50" Header="Birthday" DisplayMemberBinding="{Binding Birthday}"/>
+                            <GridViewColumn Width="50" Header="Gender" DisplayMemberBinding="{Binding Gender}"/>
+                            <GridViewColumn Header="" Width="50">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="View" Click="UsersView" CommandParameter="{Binding ID}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <ListView x:Name="listBoxUsersHistory" HorizontalAlignment="Left" Height="356" VerticalAlignment="Top" Width="376" Margin="176.8,42,-4.8,-0.4" Grid.Column="1">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Width="70" Header="Title" DisplayMemberBinding="{Binding BookName}"/>
+                            <GridViewColumn Width="70" Header="Author" DisplayMemberBinding="{Binding BookAuthor}"/>
+                            <GridViewColumn Width="80" Header="Publishing House" DisplayMemberBinding="{Binding PublishingHouse}"/>
+                            <GridViewColumn Width="70" Header="Given?" DisplayMemberBinding="{Binding Given}"/>
+                            <GridViewColumn Width="70" Header="Returned?" DisplayMemberBinding="{Binding Returned}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <Label x:Name="label1" Content="Users history&#xD;&#xA;" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="176.8,10,0,0" Grid.Column="1" Height="42" Width="79"/>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Reserve requests" Margin="44.6,-2,-55.8,0">
+            <Grid Background="#FFE5E5E5">
+                <ListView x:Name="ReservedRequests">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Width="100" Header="FirstName" DisplayMemberBinding="{Binding FirstName}"/>
+                            <GridViewColumn Width="100" Header="Surname" DisplayMemberBinding="{Binding Surname}"/>
+                            <GridViewColumn Width="100" Header="BookName" DisplayMemberBinding="{Binding BookName}"/>
+                            <GridViewColumn Header="Give the book" Width="200">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Padding="25,7" Content="Give" Click="GiveTheBook" CommandParameter="{Binding ID}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Not returned books" Margin="55.8,-2,-72,0">
+            <Grid Background="#FFE5E5E5">
+                <ListView x:Name="NotReturnedBooks">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Width="100" Header="FirstName" DisplayMemberBinding="{Binding FirstName}"/>
+                            <GridViewColumn Width="100" Header="Surname" DisplayMemberBinding="{Binding Surname}"/>
+                            <GridViewColumn Width="100" Header="BookName" DisplayMemberBinding="{Binding BookName}"/>
+                            <GridViewColumn Header="Send return notification" Width="200">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Padding="25,7" Content="Send" Click="SendReturnNot" CommandParameter="{Binding ID}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+        </TabItem>
+    </TabControl>
 </Window>
     
