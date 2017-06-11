@@ -34,8 +34,8 @@ namespace Book
     {
 
 
-       public static  SqlConnection sqlConnection;
-       public static SqlCommand sqlCommand;
+        public static SqlConnection sqlConnection;
+        public static SqlCommand sqlCommand;
         public static SqlCommandBuilder sqlCommandBuilder;
         public static SqlDataReader sqlDataReader;
         public static DataTable dataTable;
@@ -59,7 +59,7 @@ namespace Book
             {
                 listbox.DisplayMemberPath = "Text";
                 listbox.SelectedValuePath = "Value";
-                sqlDataReader = await sqlCommand.ExecuteReaderAsync(); 
+                sqlDataReader = await sqlCommand.ExecuteReaderAsync();
                 while (await sqlDataReader.ReadAsync())
                 {
                     listbox.Items.Add(new BookData() { Value = sqlDataReader["Id"].ToString(), Text = Convert.ToString(sqlDataReader["Id"]) + "   " + Convert.ToString(sqlDataReader["BookName"]) + "   " + Convert.ToString(sqlDataReader["BookAuthor"]) + "  " + Convert.ToString(sqlDataReader["PublishingHouse"]) });
@@ -100,6 +100,50 @@ namespace Book
                     sqlDataReader.Close();
             }
 
+            sqlCommand = new SqlCommand("Select ub.ID,u.FirstName, u.Surname, b.BookName FROM [UsersBooks] ub JOIN Users u ON u.Id = ub.USerID JOIN Books b ON b.Id = ub.BookID WHERE ub.Given = '0'", sqlConnection);
+            try
+            {
+                ReservedRequests.DisplayMemberPath = "Text";
+                ReservedRequests.SelectedValuePath = "Value";
+                sqlDataReader = await sqlCommand.ExecuteReaderAsync();
+                while (await sqlDataReader.ReadAsync())
+                {
+                    ReservedRequests.Items.Add(new BookData() { Value = sqlDataReader["ID"].ToString(), Text = Convert.ToString(sqlDataReader["FirstName"]) + "   " + Convert.ToString(sqlDataReader["Surname"]) + "   " + Convert.ToString(sqlDataReader["BookName"]) });
+                }
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message.ToString(), ex.Source.ToString(), MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                if (sqlDataReader != null)
+                    sqlDataReader.Close();
+            }
+
+            sqlCommand = new SqlCommand("Select ub.ID,u.FirstName, u.Surname, b.BookName FROM [UsersBooks] ub JOIN Users u ON u.Id = ub.USerID JOIN Books b ON b.Id = ub.BookID WHERE ub.Given = '1'", sqlConnection);
+            try
+            {
+                NotReturnedBooks.DisplayMemberPath = "Text";
+                NotReturnedBooks.SelectedValuePath = "Value";
+                sqlDataReader = await sqlCommand.ExecuteReaderAsync();
+                while (await sqlDataReader.ReadAsync())
+                {
+                    NotReturnedBooks.Items.Add(new BookData() { Value = sqlDataReader["ID"].ToString(), Text = Convert.ToString(sqlDataReader["FirstName"]) + "   " + Convert.ToString(sqlDataReader["Surname"]) + "   " + Convert.ToString(sqlDataReader["BookName"]) });
+                }
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message.ToString(), ex.Source.ToString(), MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                if (sqlDataReader != null)
+                    sqlDataReader.Close();
+            }
+
         }
 
         private new void MouseDoubleClickEvent(object sender, RoutedEventArgs e)
@@ -108,40 +152,10 @@ namespace Book
             bookHistory.ShowDialog();
         }
 
-        /*
-        private void GetData()
-        {
-
-            try
-            {
-                sqlDataAdapter = new SqlDataAdapter("Select * From Books", LoginWindow1.connectionSString);
-                sqlCommandBuilder = new SqlCommandBuilder(sqlDataAdapter);
-
-                dataTable = new DataTable();
-                dataTable.Locale = System.Globalization.CultureInfo.InvariantCulture;
-                sqlDataAdapter.Fill(dataTable);
-
-
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("Run");
-            }
-        }
-*/
         private void Windows_Loaded(object sender, RoutedEventArgs e)
         {
             LoadTableBooks();
-
-            /*   Book.DataBaseBookDataSet dataBaseBookDataSet = ((Book.DataBaseBookDataSet)(this.FindResource("dataBaseBookDataSet")));
-               // Load data into the table Books. You can modify this code as needed.
-               Book.DataBaseBookDataSetTableAdapters.BooksTableAdapter dataBaseBookDataSetBooksTableAdapter = new Book.DataBaseBookDataSetTableAdapters.BooksTableAdapter();
-               dataBaseBookDataSetBooksTableAdapter.Fill(dataBaseBookDataSet.Books);
-               System.Windows.Data.CollectionViewSource booksViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("booksViewSource")));
-               booksViewSource.View.MoveCurrentToFirst();
-               */
         }
-
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -189,7 +203,7 @@ namespace Book
             {
                 Status.IsHitTestVisible = true;
                 Status.Content = "Be sure to fill in the name of the book";
-               
+
 
             }
 

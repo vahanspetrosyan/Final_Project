@@ -14,7 +14,6 @@
     <Border Margin="30" CornerRadius="50" Background="#FF243257" >
         <TabControl  Margin="10"  Width="693">
             <TabItem Header="Book Managment" Margin="-2,-2,-17.6,0.2">
-
                 <Grid Background="#FFF0F3FF" DataContext="{StaticResource booksViewSource}">
                     <Label Content="Book Name" Height="30" FontSize="15" Margin="0,94,0,268" />
                     <TextBox x:Name="textbox1" FontSize="20" HorizontalAlignment="Left" Height="30" Margin="174,94,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="128" TextAlignment="Center"/>
@@ -47,6 +46,16 @@
 
                     <ListBox x:Name="listBoxUsersHistory" HorizontalAlignment="Left" Height="356" VerticalAlignment="Top" Width="376" Margin="176.8,42,-4.8,-0.4" Grid.Column="1"/>
                     <Label x:Name="label1" Content="Users history&#xD;&#xA;" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="176.8,10,0,0" Grid.Column="1" Height="42" Width="79"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Reserve requests" Margin="44.6,-2,-55.8,0">
+                <Grid Background="#FFE5E5E5">
+                    <ListBox x:Name="ReservedRequests"></ListBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Not returned books" Margin="55.8,-2,-72,0">
+                <Grid Background="#FFE5E5E5">
+                    <ListBox x:Name="NotReturnedBooks"></ListBox>
                 </Grid>
             </TabItem>
         </TabControl>
