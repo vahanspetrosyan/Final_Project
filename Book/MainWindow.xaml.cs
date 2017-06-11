@@ -104,13 +104,24 @@ namespace Book
         private void LoadNotReturnedBooks()
         {
             sqlDataReader = null;
-            sqlCommand = new SqlCommand("Select ub.ID,u.FirstName, u.Surname, b.BookName FROM [UsersBooks] ub JOIN Users u ON u.Id = ub.USerID JOIN Books b ON b.Id = ub.BookID WHERE ub.Given = '1'", sqlConnection);
+            sqlCommand = new SqlCommand("Select ub.ID,ub.Givendate,u.FirstName, u.Surname, b.BookName FROM [UsersBooks] ub JOIN Users u ON u.Id = ub.USerID JOIN Books b ON b.Id = ub.BookID WHERE ub.Given = '1'", sqlConnection);
             try
             {
                 sqlDataReader = sqlCommand.ExecuteReader();
                 while (sqlDataReader.Read())
                 {
-                    NotReturnedBooks.Items.Add(new { ID = Convert.ToString(sqlDataReader["ID"]), FirstName = Convert.ToString(sqlDataReader["FirstName"]), Surname = Convert.ToString(sqlDataReader["Surname"]), BookName = Convert.ToString(sqlDataReader["BookName"]) });
+                    DateTime givenDate = DateTime.ParseExact(sqlDataReader["Givendate"].ToString(), "d/M/yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+                    DateTime nowDate = Convert.ToDateTime(DateTime.Now.ToString("d/M/yyyy HH:mm:ss"));
+                    TimeSpan difference = nowDate.Subtract(givenDate);
+                    NotReturnedBooks.Items.Add(new
+                    {
+                        ID = Convert.ToString(sqlDataReader["ID"]),
+                        FirstName = Convert.ToString(sqlDataReader["FirstName"]),
+                        Surname = Convert.ToString(sqlDataReader["Surname"]),
+                        BookName = Convert.ToString(sqlDataReader["BookName"]),
+                        Givendate = Convert.ToString(sqlDataReader["Givendate"]),
+                        Days = Convert.ToString(difference.ToString("%d"))
+                    });
                 }
             }
             catch (Exception ex)

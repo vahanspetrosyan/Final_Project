@@ -108,9 +108,10 @@
                 <ListView x:Name="NotReturnedBooks">
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Width="100" Header="FirstName" DisplayMemberBinding="{Binding FirstName}"/>
+                            <GridViewColumn Width="100" Header="First Name" DisplayMemberBinding="{Binding FirstName}"/>
                             <GridViewColumn Width="100" Header="Surname" DisplayMemberBinding="{Binding Surname}"/>
-                            <GridViewColumn Width="100" Header="BookName" DisplayMemberBinding="{Binding BookName}"/>
+                            <GridViewColumn Width="100" Header="Book Name" DisplayMemberBinding="{Binding BookName}"/>
+                            <GridViewColumn Width="130" Header="Given date" DisplayMemberBinding="{Binding Givendate}"/>
                             <GridViewColumn Header="Send return notification" Width="200">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
