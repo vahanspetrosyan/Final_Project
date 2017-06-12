@@ -9,7 +9,7 @@ namespace Book
     {
         public static int ID { get; set; }
         //public static string connectionSString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|DataBaseBook.mdf;Integrated Security=True";
-        public static string connectionSString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\vahan\Source\Repos\Book_HomeWork\Book\DataBaseBook.mdf;Integrated Security=True";
+        public static string connectionSString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\vahan\Source\Repos\Final_Project\Book\DataBaseBook.mdf;Integrated Security=True";
         public LoginWindow()
         {
             InitializeComponent();
