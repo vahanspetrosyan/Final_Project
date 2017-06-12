@@ -158,6 +158,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include=".README" />
     <None Include="DataBaseBookDataSet.xsc">
       <DependentUpon>DataBaseBookDataSet.xsd</DependentUpon>
     </None>

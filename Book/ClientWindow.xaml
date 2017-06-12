@@ -5,18 +5,86 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Book"
         mc:Ignorable="d"
-        Title="ClientWindow" Height="300" Width="500" Loaded="Window_Loaded">
-    <Grid OpacityMask="Black">
-        <Grid.Background>
-            <ImageBrush ImageSource="Images/Book_Template.jpg"/>
-        </Grid.Background>
-        <Grid Background="#66000000">
-        <Label Content="Search books" FontSize="15" Margin="10,52,0,0" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Width="119" />
-        <Label Content="Reserve a book" FontSize="15" Margin="10,134,0,0" Height="30" VerticalAlignment="Top" HorizontalAlignment="Left" Width="119"/>
-        <ListBox x:Name="listboxSerach" Margin="185,116,0,0" Height="60" VerticalAlignment="Top" HorizontalAlignment="Left" Width="259"/>
-        <Button Padding="10" Content="Reserve selected book" Margin="299,204,0,0" Height="44" VerticalAlignment="Top" HorizontalAlignment="Left" Width="145" Click="ReserveABook"/>
-        <TextBox x:Name="textboxBookSerarch" Margin="185,44,179,187"/>
-        <Button Content="Search" Margin="329,44,0,0" HorizontalAlignment="Left" Width="115" Height="38" VerticalAlignment="Top" Click="Button_Click" />
-        </Grid>
-    </Grid>
+        Title="ClientWindow" Height="536" Width="781" Loaded="Window_Loaded">
+    <TabControl  Margin="0,0,3.4,2.4">
+        <TabItem Header="Reserve a book">
+            <Grid OpacityMask="Black">
+                <Grid.Background>
+                    <ImageBrush ImageSource="Images/Book_Template.jpg"/>
+                </Grid.Background>
+                <Grid Background="#66000000">
+                    <ListView x:Name="BooksList" Margin="10,100,0,0" Height="333" VerticalAlignment="Top" HorizontalAlignment="Left" Width="736">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Width="200" Header="Title" DisplayMemberBinding="{Binding BookName}"/>
+                                <GridViewColumn Width="200" Header="Author" DisplayMemberBinding="{Binding BookAuthor}"/>
+                                <GridViewColumn Width="200" Header="Publishing House" DisplayMemberBinding="{Binding PublishingHouse}"/>
+                                <GridViewColumn Header="Reserve the book" Width="120">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Content="Reserve" Click="ReserveABook" CommandParameter="{Binding ID}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <TextBox x:Name="textboxBookSerarch" Margin="10,57,109.6,381" Padding="5,7"/>
+                    <Button Content="Search" Margin="656,57,9.6,381" Click="SearchABook" Padding="5,7" />
+                </Grid>
+            </Grid>
+        </TabItem>
+        <TabItem Header="My books">
+            <Grid Background="#FFE5E5E5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="139*"/>
+                    <ColumnDefinition Width="548*"/>
+                </Grid.ColumnDefinitions>
+                <ListView x:Name="listBoxUsersHistory" HorizontalAlignment="Left" Height="476" VerticalAlignment="Top" Width="766" Grid.ColumnSpan="2" Margin="0,0,-0.4,0">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Width="100" Header="Title" DisplayMemberBinding="{Binding BookName}"/>
+                            <GridViewColumn Width="100" Header="Author" DisplayMemberBinding="{Binding BookAuthor}"/>
+                            <GridViewColumn Width="150" Header="Publishing House" DisplayMemberBinding="{Binding PublishingHouse}"/>
+                            <GridViewColumn Width="150" Header="Given?" DisplayMemberBinding="{Binding Given}"/>
+                            <GridViewColumn Width="150" Header="Returned?" DisplayMemberBinding="{Binding Returned}"/>
+                            <GridViewColumn Header="Return the book" Width="100">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Return" Click="ReturnABook" CommandParameter="{Binding ID}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Return books notifications">
+            <Grid Background="#FFE5E5E5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="139*"/>
+                    <ColumnDefinition Width="548*"/>
+                </Grid.ColumnDefinitions>
+                <ListView x:Name="ReturnNotBookss" HorizontalAlignment="Left" Height="476" VerticalAlignment="Top" Width="766" Grid.ColumnSpan="2" Margin="0,0,-0.4,0">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Width="100" Header="Title" DisplayMemberBinding="{Binding BookName}"/>
+                            <GridViewColumn Width="100" Header="Author" DisplayMemberBinding="{Binding BookAuthor}"/>
+                            <GridViewColumn Width="150" Header="Publishing House" DisplayMemberBinding="{Binding PublishingHouse}"/>
+                            <GridViewColumn Width="150" Header="Given" DisplayMemberBinding="{Binding Given}"/>
+                            <GridViewColumn Width="150" Header="Days" DisplayMemberBinding="{Binding Days}"/>
+                            <GridViewColumn Header="Return the book" Width="100">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Return" Click="ReturnABook" CommandParameter="{Binding ID}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+        </TabItem>
+    </TabControl>
 </Window>

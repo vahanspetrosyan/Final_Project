@@ -14,11 +14,11 @@
         <TabItem Header="Book Managment" Margin="-2,-2,-17.6,0.2">
             <Grid Background="#FFF0F3FF" DataContext="{StaticResource booksViewSource}">
                 <Label Content="Book Name" Height="30" FontSize="15" Margin="10,62,-10.4,376" />
-                <TextBox x:Name="textbox1" FontSize="20" HorizontalAlignment="Left" Height="30" Margin="146,60,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="128" TextAlignment="Center"/>
+                <TextBox Padding="7,5" x:Name="textbox1" FontSize="12" HorizontalAlignment="Left" Height="30" Margin="146,60,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="128" TextAlignment="Center"/>
                 <Label Content="Book Author" Height="30" FontSize="15" Margin="10,117,-10.4,321" />
-                <TextBox x:Name="textbox2" FontSize="20" HorizontalAlignment="Left" Height="30" TextWrapping="Wrap" VerticalAlignment="Top" Width="128" Margin="146,117,0,0" TextAlignment="Center"/>
+                <TextBox Padding="7,5" x:Name="textbox2" FontSize="12" HorizontalAlignment="Left" Height="30" TextWrapping="Wrap" VerticalAlignment="Top" Width="128" Margin="146,117,0,0" TextAlignment="Center"/>
                 <Label Content="Publishing House" Height="30" FontSize="15" Margin="10,178,-10.4,260" />
-                <TextBox x:Name="textbox3" FontSize="20" HorizontalAlignment="Left" Height="30" Margin="146,178,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="128" TextAlignment="Center"/>
+                <TextBox Padding="7,5" x:Name="textbox3" FontSize="12" HorizontalAlignment="Left" Height="30" Margin="146,178,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="128" TextAlignment="Center"/>
                 <Button Content="Add Book" FontSize="12" Margin="197,233,491.6,193" Click="BookInsert" />
                 <ListView x:Name="Books" HorizontalAlignment="Left" Height="355" Margin="302,60,0,0" VerticalAlignment="Top" Width="454">
                     <ListView.View>
@@ -112,6 +112,7 @@
                             <GridViewColumn Width="100" Header="Surname" DisplayMemberBinding="{Binding Surname}"/>
                             <GridViewColumn Width="100" Header="Book Name" DisplayMemberBinding="{Binding BookName}"/>
                             <GridViewColumn Width="130" Header="Given date" DisplayMemberBinding="{Binding Givendate}"/>
+                            <GridViewColumn Width="130" Header="Days passed" DisplayMemberBinding="{Binding Days}"/>
                             <GridViewColumn Header="Send return notification" Width="200">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>

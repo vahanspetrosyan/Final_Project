@@ -6,12 +6,6 @@ using System.Data.SqlClient;
 
 namespace Book
 {
-    public class BookData
-    {
-        public string Value { get; set; }
-        public string Text { get; set; }
-    }
-
     public partial class MainWindow : Window
     {
         public static SqlConnection sqlConnection = new SqlConnection(LoginWindow.connectionSString);
@@ -104,15 +98,16 @@ namespace Book
         private void LoadNotReturnedBooks()
         {
             sqlDataReader = null;
-            sqlCommand = new SqlCommand("Select ub.ID,ub.Givendate,u.FirstName, u.Surname, b.BookName FROM [UsersBooks] ub JOIN Users u ON u.Id = ub.USerID JOIN Books b ON b.Id = ub.BookID WHERE ub.Given = '1'", sqlConnection);
+            sqlCommand = new SqlCommand("Select ub.ID,ub.Givendate,u.FirstName, u.Surname, b.BookName FROM [UsersBooks] ub JOIN Users u ON u.Id = ub.USerID JOIN Books b ON b.Id = ub.BookID WHERE ub.Given = '1' AND ub.[Return]!='1'", sqlConnection);
             try
             {
                 sqlDataReader = sqlCommand.ExecuteReader();
                 while (sqlDataReader.Read())
                 {
-                    DateTime givenDate = DateTime.ParseExact(sqlDataReader["Givendate"].ToString(), "d/M/yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
-                    DateTime nowDate = Convert.ToDateTime(DateTime.Now.ToString("d/M/yyyy HH:mm:ss"));
-                    TimeSpan difference = nowDate.Subtract(givenDate);
+                    DateTime givenDatet = DateTime.Parse(DateTime.Parse(sqlDataReader["Givendate"].ToString()).ToString("d/M/yyyy HH:mm:ss"));
+                    DateTime givenDate = new DateTime(givenDatet.Year,givenDatet.Month,givenDatet.Day, givenDatet.Hour, givenDatet.Minute, givenDatet.Second);
+                    DateTime nowDate = DateTime.Now;
+                    TimeSpan difference = nowDate - givenDate;
                     NotReturnedBooks.Items.Add(new
                     {
                         ID = Convert.ToString(sqlDataReader["ID"]),
@@ -203,6 +198,7 @@ namespace Book
                     listBoxUsersHistory.Items.Add(new
                     {
                         BookName = Convert.ToString(sqlDataReader["BookName"]),
+                        BookAuthor = Convert.ToString(sqlDataReader["BookAuthor"]),
                         PublishingHouse = Convert.ToString(sqlDataReader["PublishingHouse"]),
                         Given = givenS,
                         Returned = returnS
@@ -220,18 +216,31 @@ namespace Book
             }
         }
 
-        private void SendReturnNot(object sender, RoutedEventArgs e)
+        private async void SendReturnNot(object sender, RoutedEventArgs e)
         {
             Button b = sender as Button;
             Object sendID = b.CommandParameter as Object;
-            MessageBox.Show(sendID.ToString());
+            SqlCommand command = new SqlCommand("UPDATE usersBooks SET [Return]='2' WHERE id=@ID", sqlConnection);
+            command.Parameters.AddWithValue("ID", sendID.ToString());
+            await command.ExecuteNonQueryAsync();
+            MessageBox.Show("Notification send successfully");
+            NotReturnedBooks.Items.Clear();
+            LoadNotReturnedBooks();
         }
 
-        private void GiveTheBook(object sender, RoutedEventArgs e)
+        private async void GiveTheBook(object sender, RoutedEventArgs e)
         {
             Button b = sender as Button;
             Object sendID = b.CommandParameter as Object;
-            MessageBox.Show(sendID.ToString());
+            SqlCommand command = new SqlCommand("UPDATE usersBooks SET [Given]='1', [GivenDate]=@Date WHERE id=@ID", sqlConnection);
+            command.Parameters.AddWithValue("ID", sendID.ToString());
+            command.Parameters.AddWithValue("Date", DateTime.Now.ToString("d/M/yyyy HH:mm:ss"));
+            await command.ExecuteNonQueryAsync();
+            MessageBox.Show("The book is given successfully");
+            ReservedRequests.Items.Clear();
+            LoadReserveRequests();
+            NotReturnedBooks.Items.Clear();
+            LoadNotReturnedBooks();
         }
     }
 }

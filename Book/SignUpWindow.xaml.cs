@@ -60,8 +60,8 @@ namespace Book
 
 
                 MessageBox.Show("You have enrolled in the program book");
-
-                LoginWindow show = new LoginWindow();
+                MainWindow.sqlConnection.Close();
+               LoginWindow show = new LoginWindow();
                 show.Show();
                 this.Close();
             }
